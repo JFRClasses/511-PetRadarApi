@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgis/postgis:16-master
+    container_name: 511-petradar-db
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=secret123
+      - POSTGRES_DB=petradardb
+    volumes:
+      - postgres_data_db:/var/lib/postgresql
+
+  redis:
+    image: redis
+    container_name: 511-petradar-redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data_db:/data
+
+volumes:
+  postgres_data_db:
+  redis_data_db:
+  

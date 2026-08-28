@@ -1,24 +1,26 @@
 import { Injectable } from '@nestjs/common';
 import nodemailer from 'nodemailer';
+import 'dotenv/config';
+import { envs } from 'src/config/envs';
 @Injectable()
 export class EmailService {
   private readonly transporter: nodemailer.Transporter;
   private emails: string[] = ['devjdfr@gmail.com'];
   constructor() {
     this.transporter = nodemailer.createTransport({
-      service: process.env.MAILER_SERVICE,
+      service: envs.MAILER_SERVICE,
       auth: {
-        user: process.env.MAILER_USER,
-        pass: process.env.MAILER_TOKEN,
+        user: envs.MAILER_USER,
+        pass: envs.MAILER_TOKEN,
       },
     });
   }
 
-  async sendEmail() {
+  async sendEmail(template:string) {
     await this.transporter.sendMail({
       to: 'devjdfr@gmail.com',
-      subject: 'Hola',
-      text: 'Hola envio un correo',
+      subject: 'Mascota Perdida',
+      html:template,
     });
   }
 }

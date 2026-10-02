@@ -6,7 +6,7 @@ async function bootstrap() {
   app.setGlobalPrefix('api');
   console.log("Hola como estas");
   console.log("Hola como estas");
-  console.log("Hola como estas desde github");
+  console.log("Hola como estas desde github 2");
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

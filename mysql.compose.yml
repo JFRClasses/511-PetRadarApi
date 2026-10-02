@@ -1,0 +1,12 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: MySQLDB
+    environment:
+      - MYSQL_ROOT_PASSWORD=Secret123
+    volumes:
+      - mysql_db_volume:/var/lib/mysql
+    ports:
+      - 3307:3306
+volumes:
+  mysql_db_volume:

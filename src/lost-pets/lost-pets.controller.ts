@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { EmailService } from 'src/email/email.service';
 import { CreateLostPetDto } from './dtos/lost-pet.dto';
 import { generateLostPetTemplate } from './templates/lost-pet.template';
 import { BodyResponse } from './dtos/body-response.dto';
 import { LostPetsService } from './lost-pets.service';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+
+@UseGuards(AuthGuard)
 @Controller('lost-pets')
 export class LostPetsController {
     

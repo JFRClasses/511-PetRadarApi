@@ -1,6 +1,7 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from 'src/users/dtos/CreateUserDto';
+import { LoginUserDto } from './dtos/LoginUserDto';
 import { BodyResponse } from 'src/lost-pets/dtos/body-response.dto';
 
 @Controller('auth')
@@ -10,8 +11,18 @@ export class AuthController {
     ){}
 
     @Post("login")
-    async login(){
-
+    async login(@Body() dto: LoginUserDto){
+        const response : BodyResponse = {
+            status: 200,
+            error: false,
+            errorMessage: undefined,
+            data: undefined
+        }
+        const id = await this.authService.login(dto.email, dto.password);
+        response.data = {
+            token: id
+        };
+        return response;
     }
 
     @Post("register")
@@ -22,9 +33,9 @@ export class AuthController {
             errorMessage: undefined,
             data: undefined
         }
-        const token = await this.authService.register(dto);
+        const id = await this.authService.register(dto);
         response.data = {
-            token: token
+            token: id
         };
         return response;
     }

@@ -1,3 +1,4 @@
+# Multi Stage Build
 name: Build & Push Docker Image
 on:
   push:
@@ -13,3 +14,9 @@ jobs:
       
       - name: Construir imagen
         run: docker build -t juanfr97/pet-radar-api:latest .
+# Secretos y variables !!!!!!! por ambiente
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Docker Push
+        run: docker push juanfr97/pet-radar-api:latest

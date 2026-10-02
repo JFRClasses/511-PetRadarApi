@@ -14,9 +14,14 @@ jobs:
       
       - name: Construir imagen
         run: docker build -t juanfr97/pet-radar-api:latest .
+
+      - name: Retaggear imagen con commit
+        run: docker tag juanfr97/pet-radar-api:latest juanfr97/pet-radar-api:${{ github.sha }}
 # Secretos y variables !!!!!!! por ambiente
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Docker Push
-        run: docker push juanfr97/pet-radar-api:latest
+        run: |
+          docker push juanfr97/pet-radar-api:latest
+          docker push juanfr97/pet-radar-api:${{ github.sha }}

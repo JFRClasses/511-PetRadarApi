@@ -1,0 +1,15 @@
+name: Build & Push Docker Image
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        name: Clonar repositorio
+      
+      - name: Construir imagen
+        run: docker build -t juanfr97/pet-radar-api:latest .

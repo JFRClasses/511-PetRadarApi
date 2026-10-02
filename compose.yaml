@@ -1,6 +1,25 @@
 services:
+  migrations:
+    image: juanfr97/pet-radar-api:latest
+    container_name: PetRadarMigrator
+    environment:
+      - MAILER_SERVICE=${MAILER_SERVICE}
+      - MAILER_USER=${MAILER_USER}
+      - MAILER_TOKEN=${MAILER_TOKEN}
+      - MAPBOX_TOKEN=${MAPBOX_TOKEN}
+      - DB_NAME=${DB_NAME}
+      - DB_HOST=${DB_HOST}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${DB_USER}
+      - DB_PORT=${DB_PORT}
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    command: ["npm","run","migration:run"]
+    depends_on:
+      postgres:
+        condition: service_healthy
   api:
-    image: pet-radar-api:latest
+    image: juanfr97/pet-radar-api:latest
     container_name: PetRadarApi
     environment:
       - MAILER_SERVICE=${MAILER_SERVICE}
@@ -14,11 +33,10 @@ services:
       - DB_PORT=${DB_PORT}
       - REDIS_HOST=${REDIS_HOST}
       - REDIS_PORT=${REDIS_PORT}
-
     ports:
       - 3000:3000
     depends_on:
-      - postgres
+      - migrations
 
   postgres:
     image: postgis/postgis:16-master
@@ -30,6 +48,12 @@ services:
       - POSTGRES_DB=${DB_NAME}
     volumes:
       - postgres_data_db:/var/lib/postgresql
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d petradardb"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   redis:
     image: redis

@@ -13,4 +13,6 @@ export const envs = {
     DB_PORT: env.get('DB_PORT').required().asPortNumber(),
     REDIS_HOST: env.get('REDIS_HOST').required().asString(),
     REDIS_PORT: env.get('REDIS_PORT').required().asPortNumber(),
+    AWS_BUCKET: env.get('AWS_BUCKET').required().asString(),
+    AWS_REGION: env.get('AWS_REGION').required().asString()
 };

@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataSourceOptions } from './db/data-source';
 import { CacheService } from './cache/cache.service';
 import { CacheModule } from './cache/cache.module';
+import { StorageModule } from './storage/storage.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { CacheModule } from './cache/cache.module';
     AuthModule,
     UsersModule,
     TypeOrmModule.forRoot(dataSourceOptions),
-    CacheModule
+    CacheModule,
+    StorageModule
   ],
   controllers: [AppController],
   providers: [AppService, CacheService],
